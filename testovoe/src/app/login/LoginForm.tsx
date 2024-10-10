@@ -44,6 +44,8 @@ export default function LoginForm() {
         />
       </div>
 
+      <span>{isStatus? isStatus: ''}</span>
+
       <button className="border-2" onClick={handleLogin}>login</button>
     </div>
   );

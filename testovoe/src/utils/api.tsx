@@ -32,4 +32,9 @@ async function register({ username, password, email }: RegisterData) {
   return data;
 }
 
-export { login, register };
+async function getDealsList() {
+  const { data, status } = await axios.get('http://localhost:5000/api/deals');
+  return data;
+}
+
+export { login, register, getDealsList };
