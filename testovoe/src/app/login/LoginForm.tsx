@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react";
-import { login } from "@/utils/api";
+import { login, logout } from "@/utils/api";
 import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
@@ -18,8 +18,8 @@ export default function LoginForm() {
       password: passwordValue
     })
     .then(value => {
-      router.push('/');
-      localStorage.setItem('token', JSON.stringify(value));
+      router.replace('/');
+      // localStorage.setItem('token', JSON.stringify(value));
     })
     .catch(error => setIsStatus(error.response.data.message))
   }
@@ -46,7 +46,9 @@ export default function LoginForm() {
 
       <span>{isStatus? isStatus: ''}</span>
 
+      
       <button className="border-2" onClick={handleLogin}>login</button>
+      <button onClick={() => logout()} className="text-blue-300 border-2">Logout</button>
     </div>
   );
 }

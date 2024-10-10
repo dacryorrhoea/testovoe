@@ -1,4 +1,5 @@
 import List from "@/components/list";
+import DealAdd from "@/components/dealAdd";
 
 export default function Home() {
   return (
@@ -9,9 +10,7 @@ export default function Home() {
             <h3>User: Anon</h3>
           </div>
           <List/>
-          <button className="text-xl text-yellow-400 font-semibold">
-            Добавить
-          </button>
+          <DealAdd/>
         </div>
       </main>
     </div>

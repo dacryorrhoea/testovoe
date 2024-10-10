@@ -1,4 +1,9 @@
-import { Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+
+type DealPayloadType = {
+  name: string,
+  desc: string
+}
 
 let Deals = [{
   id: 1,
@@ -41,11 +46,20 @@ export class DealsController {
   }
 
   @Post()
-  create() {}
+  create(@Body() dealPayload: DealPayloadType) {
+    Deals.push({
+      id: Deals.length + 1,
+      ...dealPayload
+    })
+    return 'Append.'
+  }
 
   @Patch(':id')
   update(@Param('id') id) {}
 
   @Delete(':id')
-  remove(@Param('id') id) {}
+  remove(@Param('id') id) {
+    Deals.splice(id, 1)
+    return Deals;
+  }
 }
