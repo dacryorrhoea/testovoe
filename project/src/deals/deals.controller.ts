@@ -1,6 +1,6 @@
 import { Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 
-const deals = [{
+let Deals = [{
   id: 1,
   name: 'доброе дело №1',
   desc: 'очень доброе'
@@ -31,12 +31,13 @@ export class DealsController {
   
   @Get()
   findAll() {
-    return deals
+    return Deals
   }
 
   @Get(':id')
-  findOne(@Param() id) {
-    return id;
+  findOne(@Param('id') id) {
+    const deal = Deals[id - 1]
+    return deal;
   }
 
   @Post()

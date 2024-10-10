@@ -37,6 +37,8 @@ export class AuthService {
 
     if (findedUser) return null;
 
+    // needed created user :/ 
+
     return 1;
   }
 }
