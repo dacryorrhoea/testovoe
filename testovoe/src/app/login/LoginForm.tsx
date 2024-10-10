@@ -1,45 +1,50 @@
 "use client"
 
 import { useState } from "react";
+import { login } from "@/utils/api";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
-  const [login, setLogin] = useState('');
-  const [password, setPassword] = useState('');
+  const [loginValue, setLoginValue] = useState<string>('');
+  const [passwordValue, setPasswordValue] = useState<string>('');
 
-  const handleLogin = async () => {
-    const data = await fetch('http://localhost:5000/api/auth/login', {
-      method: 'POST',
-      body: JSON.stringify({
-        username: login,
-        password: password
-      })
+  const [isStatus, setIsStatus] = useState<string|null>(null);
+
+  const router = useRouter();
+
+  const handleLogin = () => {
+    login({
+      username: loginValue,
+      password: passwordValue
     })
-    console.log(data)
+    .then(value => {
+      router.push('/');
+      localStorage.setItem('token', JSON.stringify(value));
+    })
+    .catch(error => setIsStatus(error.response.data.message))
   }
  
   return (
     <div className="flex flex-col gap-8 items-end">
       <div className="flex gap-8">
-        <label htmlFor="login">Login</label>
+        <span>Login</span>
         <input
           type="text"
-          name="login"
           className="text-black"
-          onChange={(e) => setLogin(e.target.value)}
+          onChange={(e) => setLoginValue(e.target.value)}
         />
       </div>
 
       <div className="flex gap-8">
-        <label htmlFor="password">Password</label>
+        <span>Password</span>
         <input 
           type="password"
-          name="password"
           className="text-black"
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => setPasswordValue(e.target.value)}
         />
       </div>
 
-      <button className="b-2" onClick={handleLogin}>login</button>
+      <button className="border-2" onClick={handleLogin}>login</button>
     </div>
   );
 }
