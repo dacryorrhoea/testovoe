@@ -12,16 +12,13 @@ export default function LoginForm() {
 
   const router = useRouter();
 
-  const handleLogin = () => {
-    login({
-      username: loginValue,
-      password: passwordValue
-    })
-    .then(value => {
+  const handleLogin = async () => {
+    const status = await login({username: loginValue, password: passwordValue})
+    if (!status) {
       router.replace('/');
-      // localStorage.setItem('token', JSON.stringify(value));
-    })
-    .catch(error => setIsStatus(error.response.data.message))
+    } else {
+      setIsStatus(isStatus)
+    }
   }
  
   return (

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react";
-import { addDeal } from "@/utils/api";
+import { addDeed } from "@/utils/api";
 import { useRouter } from "next/navigation";
 
 export default function DealAdd() {
@@ -9,16 +9,14 @@ export default function DealAdd() {
 
   const router = useRouter()
 
-  const handleAddDEal = () => {
-    addDeal({name: 'новое дело!', desc: descValue})
-    .then(value => router.refresh())
-    .catch(error => console.log(error))
+  const handleAddDeel = () => {
+    addDeed({title: 'новое дело!', desc: descValue}).then(() => router.refresh())
   }
 
   return (
     <div className="flex mt-4">
       <input type="text" className="text-black" onChange={(e) => setDescValue(e.target.value)}/>
-      <button className="text-xl text-yellow-400 font-semibold ml-3" onClick={handleAddDEal}>
+      <button className="text-xl text-yellow-400 font-semibold ml-3" onClick={handleAddDeel}>
         Добавить
       </button>
     </div>

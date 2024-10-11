@@ -19,8 +19,7 @@ export default function RegisterForm() {
       email: emailValue,
       password: passwordValue
     })
-    .then(value => router.push('/login'))
-    .catch(error => setIsStatus(error.response.data.message))
+    .then(() => router.push('/'))
   }
 
   return (

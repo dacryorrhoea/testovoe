@@ -27,12 +27,12 @@ export class UserService {
     return this.userRepository.findOneBy({ id });
   }
 
-  updateUser(id: number, updateUserDto: UpdateUserDto): Promise<User> {
-    const user: User = new User();
-    user.id = id;
+  updateUser(user: any, updateUserDto: UpdateUserDto): Promise<User> {
+    const newUser: User = new User();
+    user.id = user.id;
     user.username = updateUserDto.username;
     user.email = updateUserDto.email;
-    user.password = updateUserDto.password;
+    user.password = user.password;
     return this.userRepository.save(user);
   }
 

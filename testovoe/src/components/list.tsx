@@ -1,12 +1,12 @@
 "use client"
 
 import { useState, useEffect } from "react";
-import { getDealsList, deleteDeal } from "@/utils/api";
+import { getDeedsList, deleteDeed } from "@/utils/api";
 import { useRouter } from "next/navigation";
 
 type Deal = {
   id: number,
-  name: string,
+  title: string,
   desc: string
 }
 
@@ -16,15 +16,11 @@ export default function List() {
   const router = useRouter()
 
   useEffect(() => {
-    getDealsList()
-    .then(value => setData(value))
-    .catch(error => console.log(error))
+    getDeedsList().then(deeds => setData(deeds))
   }, [])
 
   const handleDEleteDEal = (id: number) => {
-    deleteDeal(id)
-    .then(value => router.refresh())
-    .catch(error => console.log(error))
+    deleteDeed(id).then(() => router.refresh())
   }
 
   return (
@@ -36,7 +32,7 @@ export default function List() {
             className="flex border-b-2 border-l-2 border-r-2 ali"
           >
             <span className="px-3">
-              {`${index + 1}. ${item.name}: ${item.desc}`}
+              {`${index + 1}. ${item.title}: ${item.desc}`}
             </span>
             <button className="text-red-500 border-l-2 px-3" onClick={() => handleDEleteDEal(item.id)}>
               удалить
