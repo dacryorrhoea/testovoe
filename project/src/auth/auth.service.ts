@@ -1,44 +1,40 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthPayloadDto, RegisterPayloadDto } from './dto/auth.dto';
 import { JwtService } from '@nestjs/jwt';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
-const Users = [
-  {
-    id: 1,
-    username: 'Anon',
-    email: 'anon@gmail.com',
-    password: '1234'
-  },
-  {
-    id: 2,
-    username: 'Anton',
-    email: 'anton@gmail.com',
-    password: '1234'
-  }
-]
+import { User } from 'src/user/entities/user.entity';
+
 
 @Injectable()
 export class AuthService {
-  constructor (private jwtService: JwtService) {}
+  constructor (
+    private jwtService: JwtService,
+    @InjectRepository(User) private readonly userRepository: Repository<User>
+  ) {}
+  
+  async login({ username, password }: AuthPayloadDto): Promise<{token: string}> {
+    const user = await this.userRepository.findOne({ where: { username } });
 
-  validateUser({username, password}: AuthPayloadDto) {
-    const findedUser = Users.find(user => user.username === username);
+    if (!user) throw new UnauthorizedException('Invalid email or password');
+    if (user.password !== password) throw new UnauthorizedException('Invalid email or password');
 
-    if (!findedUser) return null;
-
-    if (findedUser.password === password) {
-      const {password, ...user } = findedUser
-      return this.jwtService.sign(user)
-    }
+    const token = this.jwtService.sign({id: user.id});
+    return { token };
   }
 
-  validateRegisterData({username, email, password}: RegisterPayloadDto) {
-    const findedUser = Users.find(user => user.email === email)
+  async register({username, email, password}: RegisterPayloadDto): Promise<{token: string}> {
+    const user = await this.userRepository.create({
+      username,
+      email,
+      password
+    });
 
-    if (findedUser) return null;
+    await this.userRepository.save(user);
 
-    // needed created user :/ 
+    const token = this.jwtService.sign({ id: user.id })
 
-    return 1;
+    return { token };
   }
 }

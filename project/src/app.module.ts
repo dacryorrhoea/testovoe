@@ -1,23 +1,27 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
-import { DealsController } from './deals/deals.controller';
+import { UserModule } from './user/user.module';
+import { DeedsModule } from './deeds/deeds.module';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
-    AuthModule, 
-    // TypeOrmModule.forRoot({
-    //   type: 'postgres',
-    //   host: 'localhost',
-    //   port: 5432,
-    //   username: 'postgres',
-    //   password: '0000',
-    //   database: 'simple_bd',
-    //   entities: ["src/**/*.entity{.ts,.js}"],
-    //   synchronize: false,
-    // })
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: 'localhost',
+      port: 5432,
+      username: 'postgres',
+      password: '0000',
+      database: 'simple_bd',
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      synchronize: true,
+    }),
+    AuthModule,
+    UserModule,
+    DeedsModule
   ],
-  controllers: [DealsController],
+  controllers: [],
   providers: [],
 })
 export class AppModule {}
