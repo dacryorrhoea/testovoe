@@ -9,7 +9,4 @@ export class CreateDeedDto {
   @IsString()
   @IsNotEmpty()
   desc: string;
-
-  @IsNotEmpty()
-  owner: User;
 }
