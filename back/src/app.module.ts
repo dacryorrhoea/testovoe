@@ -10,10 +10,10 @@ import { PassportModule } from '@nestjs/passport';
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
-      port: 5432,
-      username: 'postgres',
+      port: 5428,
+      username: 'root',
       password: '0000',
-      database: 'simple_bd',
+      database: 'my_db',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),

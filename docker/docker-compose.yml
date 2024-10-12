@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  db:
+        image: postgres:latest
+        container_name: db
+        volumes:
+            - ./db:/var/lib/postgresql/data/pgdata
+        ports:
+            - 5428:5432
+        environment:
+            - POSTGRES_USER=root
+            - POSTGRES_DB=my_db
+            - POSTGRES_PASSWORD=0000
+            - PGDATA=/var/lib/postgresql/data/pgdata
