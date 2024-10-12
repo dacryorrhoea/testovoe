@@ -1,10 +1,10 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-testovoe/node_modules
-testovoe/.next
-project/node_modules
-project/dist
+front/node_modules
+front/.next
+back/node_modules
+back/dist
 /.pnp
 .pnp.js
 .yarn/install-state.gz
