@@ -7,6 +7,13 @@ import { AuthGuard } from '@nestjs/passport';
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+  
+  @Post('/add_friend/')
+  // @UseGuards(AuthGuard('jwt'))
+  addToFriend(@Req() req: any) {
+    return 'pip'
+  }
+
 
   @Get()
   @UseGuards(AuthGuard('jwt'))
@@ -16,12 +23,12 @@ export class UserController {
 
   @Get('/all')
   findAll() {
-    return this.userService.findAllUser();
+    return this.userService.viewAllUser();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.viewUser(+id);
+  @Get(':username')
+  findOne(@Param('username') username: string) {
+    return this.userService.viewUser(username);
   }
 
 

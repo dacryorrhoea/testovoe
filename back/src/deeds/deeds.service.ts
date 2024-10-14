@@ -21,7 +21,10 @@ export class DeedService {
   }
 
   findAllDeed(user: any): Promise<Deed[]> {
-    return user.deeds;
+    return this.DeedRepository.find({
+      where: {owner: user},
+      // select: {}
+    })
   }
 
   updateDeed(id: number, updateDeedDto: UpdateDeedDto, user: any): Promise<Deed> {

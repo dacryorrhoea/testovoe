@@ -1,5 +1,5 @@
 import Profile from "./profile";
-import FriendsList from "@/components/friends";
+import FriendsList from "@/app/components/Friends";
 
 export default function Home({ params }: { params: { id: string } }) {
   return (

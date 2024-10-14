@@ -1,25 +1,21 @@
 "use client"
 
 import { useState, useEffect } from "react";
-import { register } from "@/utils/api";
-import { useRouter } from "next/navigation";
+import useAuth from "@/hooks/useAuth";
 
 export default function RegisterForm() {
   const [usernameValue, setUsernameValue]= useState<string>('');
   const [emailValue, setEmailValue]= useState<string>('');
   const [passwordValue, setPasswordValue]= useState<string>('');
 
-  const [isStatus, setIsStatus] = useState<string|null>(null);
-
-  const router = useRouter();
+  const { error, registerHandler } = useAuth()
 
   const handleRegister = () => {
-    register({
+    registerHandler({
       username: usernameValue,
       email: emailValue,
       password: passwordValue
     })
-    .then(() => router.push('/'))
   }
 
   return (
@@ -39,7 +35,7 @@ export default function RegisterForm() {
         <input type="text" className="text-black" onChange={(e) => setPasswordValue(e.target.value)} />
       </div>
 
-      <span>{isStatus? isStatus: ''}</span>
+      <span className="text-white">{error}</span>
 
       <button onClick={handleRegister} className="border-2">Register</button>
     </div>

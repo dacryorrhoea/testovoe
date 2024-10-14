@@ -1,26 +1,25 @@
 "use client"
 
 import { useState } from "react";
-import { login, logout } from "@/utils/api";
+import useAuth from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
+
 
 export default function LoginForm() {
   const [loginValue, setLoginValue] = useState<string>('');
   const [passwordValue, setPasswordValue] = useState<string>('');
 
-  const [isStatus, setIsStatus] = useState<string|null>(null);
+  const router = useRouter()
 
-  const router = useRouter();
+  const { error, loginHandler, logoutHandler } = useAuth();
 
-  const handleLogin = async () => {
-    const status = await login({username: loginValue, password: passwordValue})
-    if (!status) {
-      router.replace('/');
-    } else {
-      setIsStatus(isStatus)
-    }
+  const handleLoginButton = () => {
+    loginHandler({
+      email: loginValue,
+      password: passwordValue
+    });
   }
- 
+
   return (
     <div className="flex flex-col gap-8 items-end">
       <div className="flex gap-8">
@@ -41,11 +40,20 @@ export default function LoginForm() {
         />
       </div>
 
-      <span>{isStatus? isStatus: ''}</span>
-
+      <span>{error}</span>
       
-      <button className="border-2" onClick={handleLogin}>login</button>
-      <button onClick={() => logout()} className="text-blue-300 border-2">Logout</button>
+      <button
+        className="border-2"
+        onClick={handleLoginButton}
+      >
+        Login
+      </button>
+      <button
+        className="text-blue-300 border-2"
+        onClick={() => logoutHandler()}
+      >
+        Logout
+      </button>
     </div>
   );
 }

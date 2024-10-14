@@ -1,31 +1,29 @@
 "use client"
 
 import { useState, useEffect } from "react";
-import { getAllUsers } from "@/utils/api";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import useUsers from "@/hooks/useUsers";
 
-export default function FriendsList() {
+export default function UsersList() {
   const [data, setData] = useState<any[]>([]);
 
-  useEffect(() => {
-    getAllUsers().then(users => setData(users))
-  }, [])
+  const { usersList, isLoading } = useUsers()
 
-  const handleAddFried = (id: number) => {
-
+  if (isLoading) {
+    return <>Loading...</>
   }
 
   return (
     <div className="flex flex-col gap-2 border-2 mt-1">
       <ul className="text-lg">
-        {data.length ?
-          data.map((item, index) =>
+        {usersList.length ?
+          usersList.map((item, index) =>
             <li
-              id={`${item.id}`}
+              id={`${item.username}`}
               className="flex border-b-2 border-l-2 border-r-2 ali"
             >
-              <Link href={`/${item.id}`} className="px-3">
+              <Link href={`/${item.username}`} className="px-3">
                 {`${index + 1}. ${item.username}`}
               </Link>
             </li>
@@ -34,7 +32,6 @@ export default function FriendsList() {
           <div>Loading...</div>
         }
       </ul>
-      <input type="text" className="text-black"/>
     </div>
   );
 }

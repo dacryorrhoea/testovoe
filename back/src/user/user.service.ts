@@ -11,20 +11,27 @@ export class UserService {
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
 
+  addFriend() {
+    return 'pip'
+  }
+
+  viewAllUser(): Promise<User[]> {
+    return this.userRepository.find({ select: { username: true } });
+  }
+
+  viewUser(username: string): Promise<User> {
+    return this.userRepository.findOne({ 
+      where: { username }, 
+      relations: { deeds: true },
+    });
+  }
+
   createUser(createUserDto: CreateUserDto): Promise<User> {
     const user: User = new User();
     user.username = createUserDto.username;
     user.email = createUserDto.email;
     user.password = createUserDto.password;
     return this.userRepository.save(user);
-  }
-
-  findAllUser(): Promise<User[]> {
-    return this.userRepository.find();
-  }
-
-  viewUser(id: number): Promise<User> {
-    return this.userRepository.findOneBy({ id });
   }
 
   updateUser(user: any, updateUserDto: UpdateUserDto): Promise<User> {

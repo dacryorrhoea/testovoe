@@ -1,5 +1,6 @@
 import { Deed } from "src/deeds/entities/deed.entity";
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { Friendship } from "./friendship.entity";
 
 @Entity()
 export class User {
@@ -12,9 +13,12 @@ export class User {
   @Column({ type: 'varchar' })
   email: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', select: false })
   password: string;
 
-  @OneToMany(() => Deed, deed => deed.owner, { eager:true })
+  @OneToMany(() => Deed, deed => deed.owner)
   deeds: Deed[];
+
+  @OneToMany(() => Friendship, friend => friend.owner)
+  friends: Friendship[];
 }

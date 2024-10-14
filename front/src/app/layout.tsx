@@ -27,9 +27,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased `}
       >
-        <header className="flex gap-10 w-full text-lg justify-center">
+        <header className="absolute h-20 w-full flex gap-10 text-xl justify-center items-center">
           <Link href='/'>Home</Link>
           <Link href='/login'>Login</Link>
           <Link href='/register'>Register</Link>

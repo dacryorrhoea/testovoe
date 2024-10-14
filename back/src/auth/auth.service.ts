@@ -14,8 +14,11 @@ export class AuthService {
     @InjectRepository(User) private readonly userRepository: Repository<User>
   ) {}
   
-  async login({ username, password }: AuthPayloadDto): Promise<{token: string}> {
-    const user = await this.userRepository.findOne({ where: { username } });
+  async login({ email, password }: AuthPayloadDto): Promise<{token: string}> {
+    const user = await this.userRepository.findOne({
+      where: { email },
+      select: { id: true, email: true, password: true}
+    });
 
     if (!user) throw new UnauthorizedException('Invalid email or password');
     if (user.password !== password) throw new UnauthorizedException('Invalid email or password');
@@ -25,7 +28,13 @@ export class AuthService {
   }
 
   async register({username, email, password}: RegisterPayloadDto): Promise<{token: string}> {
-    const user = await this.userRepository.create({
+    const existUsername = await this.userRepository.findOneBy({ username });
+    if (existUsername) throw new UnauthorizedException('Username alredy exist.');
+    
+    const existEmail = await this.userRepository.findOneBy({ email });
+    if (existEmail) throw new UnauthorizedException('Email alredy exist.');
+
+    const user = this.userRepository.create({
       username,
       email,
       password

@@ -19,7 +19,7 @@ import { PassportModule } from '@nestjs/passport';
     }),
     AuthModule,
     UserModule,
-    DeedsModule
+    DeedsModule,
   ],
   controllers: [],
   providers: [],
